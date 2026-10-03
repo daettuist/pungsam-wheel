@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>풍성한 삶의 수레바퀴</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+/* 레이아웃: 스크롤 없는 한 화면. 왼쪽 수레바퀴(축=하나님, 허브=그리스도 안의 나, 바퀴살 8=네 관계의 핵심, 테=주님 오실 때까지), 오른쪽 설명/진단 */
+:root{
+  --paper:#fbf8f2; --card:#fffdf9; --ink:#1b2641; --muted:#5f677c; --head:#13254a;
+  --gold:#a8802e; --gold-ink:#86661f; --gold-soft:#e6d3a3; --tint:#f2e8d2;
+  --rule:#e1d9c8; --rule2:#cabfa7; --grid:#e6dfcf;
+  --core:#13254a; --core-ink:#fbf8f2; --core-gold:#e2c88a;
+  --hub:#2b4c8c; --rim:#617448;
+  --god:#1f6f78; --self:#8a6343; --com:#4d6688; --world:#5a5d66;
+  --seg:.16; --seg-on:.34; --fill:.82;
+  --out:#ebe5d8; --shadow:rgba(19,37,74,.12);
+  --red:#c0392b;
+  --serif:"Noto Serif KR","Nanum Myeongjo","Apple SD Gothic Neo",serif;
+  --sans:"IBM Plex Sans KR","Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#0d1424; --card:#141e33; --ink:#e7e1d3; --muted:#a3a9b8; --head:#f3ecdc;
+  --gold:#d8bc7a; --gold-ink:#dcc185; --gold-soft:#5c4e2c; --tint:#211d15;
+  --rule:#243049; --rule2:#36435e; --grid:#222c43;
+  --core:#24365e; --core-ink:#f3ecdc; --core-gold:#e2c88a;
+  --hub:#93aee6; --rim:#aec38e;
+  --god:#78c3c8; --self:#d0a77f; --com:#a3b7d3; --world:#b3b6be;
+  --seg:.16; --seg-on:.32; --fill:.7;
+  --out:#070c18; --shadow:rgba(0,0,0,.5);
+  --red:#d9534a;
+  color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --paper:#0d1424; --card:#141e33; --ink:#e7e1d3; --muted:#a3a9b8; --head:#f3ecdc;
+  --gold:#d8bc7a; --gold-ink:#dcc185; --gold-soft:#5c4e2c; --tint:#211d15;
+  --rule:#243049; --rule2:#36435e; --grid:#222c43;
+  --core:#24365e; --core-ink:#f3ecdc; --core-gold:#e2c88a;
+  --hub:#93aee6; --rim:#aec38e;
+  --god:#78c3c8; --self:#d0a77f; --com:#a3b7d3; --world:#b3b6be;
+  --seg:.16; --seg-on:.32; --fill:.7;
+  --out:#070c18; --shadow:rgba(0,0,0,.5);
+  --red:#d9534a;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--out);color:var(--ink);font-family:var(--sans);font-size:15.5px;line-height:1.68;word-break:keep-all;overflow-wrap:break-word;overflow:hidden}
+h1,h2{font-family:var(--serif);color:var(--head);margin:0;line-height:1.3;text-wrap:balance}
+p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.app{position:absolute;left:50%;top:50%;width:600px;height:960px;transform:translate(-50%,-50%) scale(var(--fs,1));transform-origin:center center;display:grid;grid-template-rows:auto minmax(0,1fr);background:var(--paper);box-shadow:0 0 0 1px var(--rule),0 12px 40px var(--shadow);border-radius:6px;overflow:hidden}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px 16px;padding:12px 20px;border-bottom:1px solid var(--rule)}
+.top .eb{font-size:.72rem;font-weight:600;letter-spacing:.14em;color:var(--gold-ink)}
+.top h1{font-size:1.32rem;font-weight:900}
+.modes{display:flex;gap:6px}
+.mbtn{border:1px solid var(--rule2);background:var(--card);border-radius:99px;padding:5px 16px;font-size:.88rem;font-weight:500}
+.mbtn[aria-pressed="true"]{background:var(--core);color:var(--core-ink);border-color:var(--core)}
+
+.stage{display:grid;min-height:0}
+.svgbox{min-height:0;min-width:0;height:100%;display:flex;align-items:center;justify-content:center}
+svg.wh{width:100%;height:100%;display:block;touch-action:manipulation}
+.cap{align-self:center;display:grid;gap:12px;min-width:0;max-height:100%;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin}
+.k{font-size:.76rem;font-weight:600;letter-spacing:.1em;color:var(--gold-ink)}
+.cap h2{font-size:clamp(1.3rem,2.4vw,1.8rem);font-weight:900}
+.keys{display:flex;flex-wrap:wrap;gap:6px}
+.keys span{font-family:var(--serif);font-weight:700;border:1.5px solid var(--rc,var(--gold));border-radius:99px;padding:2px 12px;font-size:.95rem;color:var(--head)}
+.q{font-family:var(--serif);color:var(--head);font-size:clamp(1rem,1.45vw,1.1rem);line-height:1.72;border-left:3px solid var(--gold);padding-left:14px}
+.src{font-size:.8rem;color:var(--muted);padding-left:17px;margin-top:-6px}
+.note{font-size:.9rem;color:var(--muted)}
+.subs{display:grid;gap:6px}
+.subs p{font-size:.94rem;line-height:1.62}
+.subs b{font-family:var(--serif);font-weight:700;color:var(--rc);margin-right:8px}
+.subs .ss{font-size:.76rem;color:var(--muted)}
+.show-m{display:none}
+.cmt{font-size:.93rem;line-height:1.6;color:var(--ink)}
+.cmt.pr{border-left:3px solid var(--rc);padding-left:12px}
+.cmt-h{font-family:var(--serif);font-weight:700;color:var(--rc);font-size:.98rem;margin-top:4px}
+.why{font-size:.76rem;color:var(--muted);margin-top:-4px}
+.map{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.9rem;align-items:baseline}
+.map b{font-family:var(--serif);color:var(--head);white-space:nowrap}
+.map span{color:var(--muted)}
+
+/* 진단 */
+.qtext{font-family:var(--serif);font-size:clamp(1.05rem,1.6vw,1.2rem);color:var(--head);line-height:1.6}
+.scale{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.scale button{border:1px solid var(--rule2);background:var(--card);border-radius:4px;padding:6px 0;font-size:.9rem;font-weight:600;font-variant-numeric:tabular-nums}
+.scale button[aria-pressed="true"]{background:var(--rc,var(--gold));border-color:var(--rc,var(--gold));color:var(--paper)}
+.scale.demo span{display:block;text-align:center;border:1px solid var(--rule2);border-radius:4px;padding:5px 0;font-size:.88rem;font-weight:600;color:var(--muted);background:linear-gradient(90deg,transparent,transparent)}
+.scale.demo span:first-child,.scale.demo span:last-child{color:var(--head);border-color:var(--gold)}
+.samples{display:grid;gap:14px;margin-top:4px}
+.guidebox{display:flex;flex-direction:column;gap:8px;background:var(--tint);border:1.5px dashed var(--gold);border-radius:10px;padding:14px 16px}
+.red{color:var(--red)}
+.badge{display:inline-block;background:var(--gold);color:var(--paper);font-size:.7rem;font-weight:700;letter-spacing:.08em;border-radius:99px;padding:1px 9px;margin-right:8px;vertical-align:1px}
+.fullcap .svgbox{display:none}
+.fullcap .cap{grid-row:1/-1;padding-top:16px}
+.cmt.next{font-family:var(--serif);font-weight:700;color:var(--head);margin-top:6px}
+.smpbadge rect{fill:var(--red)}
+.smpbadge .sb1{fill:#ffffff;font-family:var(--sans);font-weight:700;font-size:23px;letter-spacing:.04em}
+svg.sample .seg,svg.locked .seg{pointer-events:none;cursor:default}
+svg.sample .seg path.val{fill-opacity:.45;stroke-dasharray:6 4}
+.smp{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center}
+.smp>div{min-width:0}
+.smp b{font-family:var(--serif);color:var(--head);font-size:1.05rem}
+.smp p{font-size:.9rem;color:var(--ink);line-height:1.55;margin-top:2px}
+.mroll{width:100%;height:84px;display:block;border-bottom:1.5px solid var(--rule2)}
+.scale-l b{color:var(--head);font-weight:700;margin-right:2px}
+.scale-l{display:flex;justify-content:space-between;font-size:.74rem;color:var(--muted);margin-top:-6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.btn{border:1px solid var(--rule2);background:var(--card);border-radius:99px;padding:6px 16px;font-size:.88rem;font-weight:500;white-space:nowrap}
+.btn.primary{background:var(--core);color:var(--core-ink);border-color:var(--core)}
+.btn:disabled{opacity:.35;cursor:default}
+.btn.reset{border-style:dashed;color:var(--muted)}
+.btn.reset.armed{border-style:solid;border-color:var(--gold);color:var(--gold-ink);background:var(--tint)}
+.prog{display:flex;gap:4px}
+.prog i{width:18px;height:5px;border-radius:3px;background:var(--rule)}
+.prog i.done{background:var(--gold-soft)}
+.prog i.cur{background:var(--gold)}
+.roll{width:100%;height:96px;display:block;border-bottom:1.5px solid var(--rule2)}
+.verdict{font-family:var(--serif);font-weight:900;font-size:1.25rem;color:var(--head)}
+.bars{display:grid;gap:4px}
+.bar{display:grid;grid-template-columns:7.5rem 1fr 2rem;gap:8px;align-items:center;font-size:.86rem}
+.bar .t{height:8px;background:var(--rule);border-radius:4px;overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--rc)}
+.bar b{font-variant-numeric:tabular-nums;text-align:right;color:var(--head)}
+.bar.low span{color:var(--gold-ink);font-weight:600}
+
+/* SVG */
+.seg path.bg{fill:var(--rc);fill-opacity:var(--seg);stroke:var(--paper);stroke-width:3;transition:fill-opacity .2s}
+.seg{cursor:pointer}
+.seg:hover path.bg,.seg.on path.bg{fill-opacity:var(--seg-on)}
+.seg path.val{fill:var(--rc);fill-opacity:var(--fill);stroke:var(--paper);stroke-width:2;transition:d .25s}
+.seg text{font-family:var(--serif);font-weight:700;font-size:19px;fill:var(--head);pointer-events:none}
+.seg.on path.bg{stroke:var(--gold);stroke-width:3.5}
+.rl{font-family:var(--serif);font-weight:900;font-size:21px;pointer-events:none;paint-order:stroke;stroke:var(--paper);stroke-width:6px;stroke-linejoin:round}
+.gridc{fill:none;stroke:var(--grid);stroke-width:1}
+.gridn{fill:var(--muted);font-size:12px;font-family:var(--sans)}
+.spoke{stroke:var(--paper);stroke-width:3}
+.hub circle{fill:var(--hub);fill-opacity:.2;stroke:var(--hub);stroke-width:2}
+.hub{cursor:pointer}
+.hub.on circle{stroke:var(--gold);stroke-width:4}
+.hub text{font-family:var(--serif);font-weight:700;font-size:16px;fill:var(--hub)}
+.axle{cursor:pointer}
+.axle circle{fill:var(--core);stroke:var(--core-gold);stroke-width:3}
+.axle.on circle{stroke-width:6}
+.axle .a1{fill:var(--core-gold);font-size:12px;font-weight:600;letter-spacing:.12em;font-family:var(--sans)}
+.axle .a2{fill:var(--core-ink);font-size:26px;font-weight:900;font-family:var(--serif)}
+.rim{cursor:pointer}
+.rim path{fill:var(--rim);fill-opacity:.14;stroke:var(--rim);stroke-width:2}
+.rim.on path{stroke:var(--gold);stroke-width:4;fill-opacity:.24}
+.rim text{font-family:var(--serif);font-weight:700;font-size:19px;fill:var(--rim)}
+svg.diag .seg path.bg{fill-opacity:.06}
+svg.diag .seg.on path.bg{fill-opacity:.14}
+svg.diag .seg text{fill:var(--muted);font-size:17px}
+.seg,.hub,.axle,.rim,.rl,.spokes,.intro{transition:opacity .45s ease}
+.off{opacity:0;pointer-events:none}
+.verse{fill:var(--muted);font-family:var(--serif);font-size:24px}
+.verse.big{fill:var(--head);font-size:34px;font-weight:700}
+.ghost{fill:none;stroke:var(--rule2);stroke-dasharray:3 7;stroke-width:1.5}
+@media (prefers-reduced-motion: reduce){ .seg path.val,.seg path.bg,.seg,.hub,.axle,.rim,.rl,.spokes,.intro{transition:none} }
+
+/* ===== 10:16 고정 프레임 (600 × 960) ===== */
+.stage{grid-template-columns:1fr;grid-template-rows:526px minmax(0,1fr);padding:0 20px 12px;gap:4px}
+.svgbox{height:526px}
+.cap{align-self:stretch;height:100%;display:flex;flex-direction:column;gap:8px;max-height:100%}
+.cap>*{flex:none}
+.nav-row{margin-top:auto;min-height:38px;padding-top:6px}
+.top{padding:12px 20px}
+.top h1{font-size:1.24rem;white-space:nowrap}
+.top .eb{font-size:.66rem;white-space:nowrap}
+.mbtn{padding:5px 12px;font-size:.82rem;white-space:nowrap}
+.modes{flex:none}
+.cap h2{font-size:1.32rem;line-height:1.28}
+.q{font-size:.98rem;line-height:1.6}
+.src{margin-top:-4px}
+.note{font-size:.86rem;line-height:1.55}
+.map{font-size:.84rem;gap:1px 12px}
+.subs p{font-size:.9rem;line-height:1.55}
+.subs{gap:4px}
+.hide-m{display:none}
+.show-m{display:inline}
+.roll{height:76px}
+.bars{grid-template-columns:1fr 1fr;gap:5px 16px}
+.bar{grid-template-columns:1fr auto;grid-template-areas:'n v' 't t';gap:2px 6px;line-height:1.3;font-size:.84rem}
+.bar span{grid-area:n;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar b{grid-area:v}
+.bar .t{grid-area:t;height:6px}
+.verdict{font-size:1.1rem}
+.k{font-size:.72rem}
+.scale button{padding:5px 0;font-size:.88rem}
+.qtext{font-size:1.05rem}
+.btn{padding:6px 14px;font-size:.86rem}
+.row{gap:8px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div>
+      <div class="eb">사송주님의교회</div>
+      <h1>풍성한 삶의 수레바퀴</h1>
+    </div>
+    <div class="modes" role="group" aria-label="보기 방식">
+      <button class="mbtn" id="mLearn" aria-pressed="true">풍성한 삶의 기초</button>
+      <button class="mbtn" id="mDiag" aria-pressed="false">내 삶의 균형 점검</button>
+    </div>
+  </header>
+  <main class="stage">
+    <div class="svgbox"><svg class="wh" id="wh" viewBox="52 52 896 896" role="img" aria-label="풍성한 삶의 수레바퀴"></svg></div>
+    <section class="cap" id="cap" aria-live="polite"></section>
+  </main>
+</div>
+
+<script>
+/* ===== 내용: 만남별 요약 자료에서 가져옴 ===== */
+const REL=[
+ {id:"god",name:"하나님과의 관계",part:"Ⅱ부 · 3–4강",rc:"--god",c:-90,
+  line:["알아 간 만큼 사랑하게 되는 하나님, 예배와 기도와 순종으로 드리는 사랑.","4강"],
+  keys:[{k:"알아가기",ex:"성경에서 하나님은 어떤 분이신지, 내게 무엇을 말씀하시는지 묻는다.",q:"성경이라는 보물창고를 통해 하나님을 알아가고 있나요?",src:"3강"},
+        {k:"사랑하기",ex:"예배로 반응하고, 기도로 우정을 나누고, 순종으로 받은 사랑을 나눈다.",q:"예배·기도·순종으로 하나님께 사랑을 표현하고 있나요?",src:"4강"}]},
+ {id:"self",name:"자신과의 관계",part:"Ⅲ부 · 5–6강",rc:"--self",c:0,
+  line:["이미 새 생명을 얻고 그리스도와 함께 하늘에 앉은 나를 받아들이는 것이 나를 정말 사랑하는 것이다.","5강"],
+  keys:[{k:"자기 부인",ex:"욕심·세상의 가치관·나쁜 습관·과거의 상처, 그리스도 밖의 옛 모습을 내려놓는다.",q:"그리스도 밖의 옛 모습, 곧 선을 넘은 욕심·세상의 가치관·나쁜 습관·과거의 상처를 부인하고 있나요?",src:"6강"},
+        {k:"성령 충만",ex:"내 속에 계신 성령님께 인격적으로 동의하며 한 걸음씩 보조를 맞춰 걷는다.",q:"내 속에 계신 성령님과 한 걸음씩 보조를 맞춰 걷고 있나요?",src:"6강"}]},
+ {id:"com",name:"공동체와의 관계",part:"Ⅳ부 · 7–8강",rc:"--com",c:90,
+  line:["하나님을 정말 사랑하면 형제를 사랑하는 것으로 나타난다. 둘은 분리할 수 없다.","12강"],
+  keys:[{k:"형제 사랑",ex:"이미 이루어진 공동체를 희생·진실·구체·중심이 있는 사랑으로 살아낸다.",q:"희생하고, 진실하고, 구체적이고, 중심이 있는 사랑으로 형제를 사랑하고 있나요?",src:"7강"},
+        {k:"섬김의 도",ex:"낮아져 섬기고, 서로 복종하고, 용서하고, 나와 다른 사람을 용납한다.",q:"낮아져 섬기고, 서로 복종하고, 용서하고 용납하고 있나요?",src:"8강"}]},
+ {id:"world",name:"세상과의 관계",part:"Ⅴ부 · 9–10강",rc:"--world",c:180,
+  line:["우리는 그 다스림을 누리는 만큼 그것을 알릴 수 있다.","9강"],
+  keys:[{k:"복음 전도",ex:"그리스도를 주로 모신 삶이 질문을 부르고, 간증과 복음으로 대답한다.",q:"하나님의 다스림을 누리는 만큼 삶과 말로 알리고 있나요?",src:"9강"},
+        {k:"세상 경영",ex:"정의와 사랑을 원리로, 노동을 방법으로 맡겨진 세상을 성실하고 탁월하게 돌본다.",q:"내 일과 자리에서 정의와 사랑으로, 성실하고 탁월하게 일하고 있나요?",src:"10강"}]}
+];
+const SEGS=[]; REL.forEach(r=>r.keys.forEach((k,j)=>SEGS.push({...k,rel:r,a0:r.c-45+j*45,a1:r.c+j*45})));
+
+/* ===== 기하 ===== */
+const CX=500,CY=500, AX=58, HUB=108, SP0=108, SP1=388, RIM0=392, RIM1=440;
+const lv=v=>SP0+(SP1-SP0)*v/10;
+const NS="http://www.w3.org/2000/svg";
+function el(t,a,p){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);if(p)p.appendChild(n);return n;}
+const P=(r,d)=>({x:CX+r*Math.cos(d*Math.PI/180),y:CY+r*Math.sin(d*Math.PI/180)});
+function wedge(r0,r1,a0,a1){const p0=P(r1,a0),p1=P(r1,a1),p2=P(r0,a1),p3=P(r0,a0);
+  return `M${p0.x},${p0.y} A${r1},${r1} 0 0,1 ${p1.x},${p1.y} L${p2.x},${p2.y} A${r0},${r0} 0 0,0 ${p3.x},${p3.y} Z`;}
+const svg=document.getElementById('wh');
+const defs=el('defs',{},svg);
+// 처음 화면: 요한복음 10장 10절
+const ghost=el('circle',{cx:CX,cy:CY,r:RIM1,class:'ghost'},svg);
+const gIntro=el('g',{class:'intro'},svg);
+el('text',{x:CX,y:CY-30,'text-anchor':'middle',class:'verse'},gIntro).textContent='내가 온 것은 양으로 생명을 얻게 하고';
+el('text',{x:CX,y:CY+22,'text-anchor':'middle',class:'verse big'},gIntro).textContent='더욱 풍성히 얻게 하려 함이라';
+el('text',{x:CX,y:CY+64,'text-anchor':'middle',class:'verse',style:'font-size:20px'},gIntro).textContent='요한복음 10장 10절';
+// 테
+const rim=el('g',{class:'rim',tabindex:0,role:'button','aria-label':'바퀴 테, 주님 오실 때까지'},svg);
+el('path',{d:`M${CX-RIM1},${CY} a${RIM1},${RIM1} 0 1,0 ${2*RIM1},0 a${RIM1},${RIM1} 0 1,0 ${-2*RIM1},0 M${CX-RIM0},${CY} a${RIM0},${RIM0} 0 1,1 ${2*RIM0},0 a${RIM0},${RIM0} 0 1,1 ${-2*RIM0},0`,'fill-rule':'evenodd'},rim);
+const rm=(RIM0+RIM1)/2;
+el('path',{id:'rimTop',d:`M${CX-rm+7},${CY} A${rm-7},${rm-7} 0 0,1 ${CX+rm-7},${CY}`,fill:'none'},defs);
+el('path',{id:'rimBot',d:`M${CX-rm-7},${CY} A${rm+7},${rm+7} 0 0,0 ${CX+rm+7},${CY}`,fill:'none'},defs);
+let t=el('text',{},rim);el('textPath',{href:'#rimTop',startOffset:'50%','text-anchor':'middle'},t).textContent='주님 오실 때까지 · Ⅵ부';
+t=el('text',{},rim);el('textPath',{href:'#rimBot',startOffset:'50%','text-anchor':'middle'},t).textContent='닮아가기 · 기다리기 · 평생, 점진적으로';
+// 눈금(진단용)
+const gGrid=el('g',{},svg);
+for(let v=1;v<=10;v++){el('circle',{cx:CX,cy:CY,r:lv(v),class:'gridc'},gGrid);}
+[2,4,6,8,10].forEach(v=>{const p=P(lv(v),-90);const tx=el('text',{x:p.x+4,y:p.y-3,class:'gridn'},gGrid);tx.textContent=v;});
+gGrid.style.display='none';
+// 바퀴살 조각
+const segEls=[];
+SEGS.forEach((s,i)=>{
+  const g=el('g',{class:'seg',tabindex:0,role:'button','aria-label':`${s.rel.name}, ${s.k}`},svg);
+  g.style.setProperty('--rc',`var(${s.rel.rc})`);
+  const bg=el('path',{class:'bg',d:wedge(SP0,SP1,s.a0,s.a1)},g);
+  const val=el('path',{class:'val',d:''},g);
+  const m=(s.a0+s.a1)/2, lp=P((SP0+SP1)/2-10,m);
+  const tx=el('text',{x:lp.x,y:lp.y+7,'text-anchor':'middle'},g);tx.textContent=s.k;
+  g.addEventListener('click',ev=>onSeg(i,ev));
+  g.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();onSeg(i,null);}});
+  segEls.push({g,val});
+});
+// 바퀴살 선
+const gSpokes=el('g',{class:'spokes'},svg);
+for(let a=-135;a<225;a+=45){const p0=P(HUB,a),p1=P(RIM0,a);el('line',{x1:p0.x,y1:p0.y,x2:p1.x,y2:p1.y,class:'spoke'},gSpokes);}
+const relLab={};
+// 관계 이름 (조각 바깥쪽, 수평)
+REL.forEach(r=>{const p=P(r.c===0||r.c===180?318:342,r.c);const tx=el('text',{x:p.x,y:p.y+(r.c===-90?0:r.c===90?14:7),'text-anchor':'middle',class:'rl',fill:`var(${r.rc})`},svg);tx.textContent=r.name;relLab[r.id]=tx;});
+// 허브
+const hub=el('g',{class:'hub',tabindex:0,role:'button','aria-label':'허브, 그리스도 안의 나'},svg);
+el('circle',{cx:CX,cy:CY,r:HUB-2},hub);
+el('path',{id:'hubTop',d:`M${CX-84},${CY} A84,84 0 0,1 ${CX+84},${CY}`,fill:'none'},defs);
+el('path',{id:'hubBot',d:`M${CX-92},${CY} A92,92 0 0,0 ${CX+92},${CY}`,fill:'none'},defs);
+t=el('text',{},hub);el('textPath',{href:'#hubTop',startOffset:'50%','text-anchor':'middle'},t).textContent='그리스도 안의 나';
+t=el('text',{style:'font-size:14px'},hub);el('textPath',{href:'#hubBot',startOffset:'50%','text-anchor':'middle'},t).textContent='이루어진 일 · 받아들이는 믿음';
+// 예시 배지
+const gSample=el('g',{class:'smpbadge'},svg);
+el('rect',{x:60,y:62,width:196,height:50,rx:8},gSample);
+el('text',{x:158,y:96,'text-anchor':'middle',class:'sb1'},gSample).textContent='SAMPLE(예시)';
+gSample.style.display='none';
+// 축
+const axle=el('g',{class:'axle',tabindex:0,role:'button','aria-label':'바퀴 축, 하나님'},svg);
+el('circle',{cx:CX,cy:CY,r:AX},axle);
+el('text',{x:CX,y:CY-12,'text-anchor':'middle',class:'a1'},axle).textContent='중심축';
+el('text',{x:CX,y:CY+22,'text-anchor':'middle',class:'a2'},axle).textContent='하나님';
+
+/* ===== 상태 ===== */
+let mode='learn', sel='intro', cur=0;
+let vals=Array(8).fill(0);
+try{const s=JSON.parse(localStorage.getItem('pungsam-wheel')||'null');if(Array.isArray(s)&&s.length===8)vals=s.map(x=>+x||0);}catch(e){}
+function save(){try{localStorage.setItem('pungsam-wheel',JSON.stringify(vals));}catch(e){}}
+const cap=document.getElementById('cap');
+let onQuestion=false;
+function setOnQuestion(v){onQuestion=v;svg.classList.toggle('locked',mode==='diag'&&!v);}
+function clearOn(){setOnQuestion(false);if(sampleOn){sampleOn=false;drawVals();}document.querySelector('.app').classList.remove('fullcap');if(typeof stopRolls==='function')stopRolls();segEls.forEach(s=>s.g.classList.remove('on'));[hub,axle,rim].forEach(x=>x.classList.remove('on'));}
+let sampleOn=false;const SAMPLEV=[8,6,7,5,6,4,3,5];
+function drawVals(){gSample.style.display=sampleOn?'':'none';svg.classList.toggle('sample',sampleOn);
+  SEGS.forEach((s,i)=>{const v=sampleOn?SAMPLEV[i]:vals[i];segEls[i].val.setAttribute('d',mode==='diag'&&v>0?wedge(SP0,lv(v),s.a0,s.a1):'');});}
+
+/* --- 풍성한 삶의 기초: 축에서 테까지 쌓기 --- */
+const STEPS=['intro','axle','hub','god','self','com','world','rim','done'];
+let step=0, complete=false;
+const PARTS={
+ intro:()=>`<span class="k">풍성한 삶의 기초 · 13주 복습</span>
+   <h2>축에서 테까지, 한 조각씩 쌓아 봅니다</h2>
+   <p class="q">내가 온 것은 양으로 생명을 얻게 하고 더욱 풍성히 얻게 하려 함이라.</p>
+   <p class="src">— 요한복음 10장 10절 · 준비모임</p>
+   <div class="map">
+     <b>축</b><span>하나님 · 중심축</span>
+     <b>허브</b><span>그리스도 안의 나 · Ⅰ부 1–2강</span>
+     <b>바퀴살</b><span>네 관계의 핵심 여덟 · Ⅱ~Ⅴ부 3–10강</span>
+     <b>테</b><span>주님 오실 때까지 자라 감 · Ⅵ부 11–12강</span>
+   </div>`,
+ axle:()=>`<span class="k">축 · 가장 안쪽</span><h2>하나님</h2>
+   <p class="q">하나님 나라 백성에게는 중심축이신 하나님 아버지와 연결되는 것이 핵심이다.</p><p class="src">— 4강</p>
+   <p class="note">이 풍성한 삶은 하나님의 다스림 아래 있을 때에만 가능하다. (준비모임) 준비모임은 죄를 “하나님의 주인 자리에 내가 들어가 앉은 상태”라고 했다. 축이 빠지면 바퀴는 돌 수 없다.</p>`,
+ hub:()=>`<span class="k">허브 · Ⅰ부 1–2강</span><h2>그리스도 안의 나</h2>
+   <div class="keys" style="--rc:var(--hub)"><span>이루어진 일</span><span>받아들이는 믿음</span></div>
+   <p class="q">처음에 ‘나’가 있다. 의미 없던 내가 그리스도 안에 있게 되었다.</p><p class="src">— 12강</p>
+   <p class="note">모든 바퀴살은 허브에서 뻗어 나온다. “균형 있게 성장하는 길은 다시 믿음으로 돌아간다.” (12강)</p>`,
+ rim:()=>`<span class="k">테 · Ⅵ부 11–12강</span><h2>주님 오실 때까지</h2>
+   <div class="keys" style="--rc:var(--rim)"><span>닮아가기</span><span>기다리기</span></div>
+   <p class="q">네 관계의 원이 그리스도 안에서 점점 균형 있게 자라는 것이 그리스도를 닮아가는 것이다.</p><p class="src">— 12강</p>
+   <p class="note">주님 오실 때까지, 또는 내가 죽을 때까지 자란다. 과정은 평생, 점진적으로. (11강)</p>`,
+ done:()=>`<span class="k">풍성한 삶의 기초 · 완성</span>
+   <h2>바퀴가 완성되었습니다</h2>
+   <p class="q">그리스도인의 삶은 하나님·자신·공동체·세상, 네 가지 관계에서 균형 있게 자라는 삶이다.</p>
+   <p class="src">— 12강</p>
+   <p class="note">“배운 것을 자기 말로 누군가에게 설명하면 자기 것이 된다.” (12강) 축에서 테까지 짚으며 짝에게 설명해 보세요. 바퀴의 어느 부분을 눌러도 다시 볼 수 있습니다.</p>
+   <div class="row"><button class="btn primary" id="toDiag">내 삶의 균형 점검으로 →</button><button class="btn" id="rebuild">처음부터 다시 쌓기</button></div>`
+};
+function relCap(r){return `<span class="k">바퀴살 · ${r.part}</span><h2>${r.name}</h2>
+   <p class="q">${r.line[0]}</p><p class="src">— ${r.line[1]}</p>
+   <div class="subs" style="--rc:var(${r.rc})">${r.keys.map(k=>`<p><b>${k.k}</b>${k.ex} <span class="ss">${k.src}</span></p>`).join('')}</div>`;}
+function applyBuilt(){
+  const all = mode==='diag' || complete || STEPS[step]==='done';
+  const built=new Set(all?STEPS:STEPS.slice(1,step+1));
+  axle.classList.toggle('off',!built.has('axle'));
+  hub.classList.toggle('off',!built.has('hub'));
+  rim.classList.toggle('off',!built.has('rim'));
+  REL.forEach(r=>{const on=built.has(r.id);relLab[r.id].classList.toggle('off',!on);
+    SEGS.forEach((sg,i)=>{if(sg.rel===r)segEls[i].g.classList.toggle('off',!on);});});
+  gSpokes.classList.toggle('off',!REL.some(r=>built.has(r.id)));
+  gIntro.classList.toggle('off',!(mode==='learn'&&STEPS[step]==='intro'&&!complete));
+  ghost.classList.toggle('off',all||built.has('rim'));}
+function navRow(){const n=STEPS.length-1;
+  return `<div class="row nav-row"><button class="btn" id="lPrev" ${step===0?'disabled':''}>← 이전</button>
+    <div class="prog">${STEPS.slice(1).map((_,i)=>`<i class="${i+1===step?'cur':(i+1<step||complete)?'done':''}"></i>`).join('')}</div>
+    ${STEPS[step]==='done'?'<span style="width:4.5rem"></span>':`<button class="btn primary" id="lNext">${step===0?'쌓기 시작 →':'다음 →'}</button>`}</div>`;}
+function learnStep(k){step=Math.max(0,Math.min(STEPS.length-1,k));const which=STEPS[step];
+  if(which==='done')complete=true;
+  clearOn();applyBuilt();
+  if(which==='axle')axle.classList.add('on');if(which==='hub')hub.classList.add('on');if(which==='rim')rim.classList.add('on');
+  let html;
+  if(PARTS[which]){cap.style.setProperty('--rc','var(--gold)');html=PARTS[which]();}
+  else{const r=REL.find(x=>x.id===which);SEGS.forEach((sg,i)=>{if(sg.rel===r)segEls[i].g.classList.add('on');});
+    cap.style.setProperty('--rc',`var(${r.rc})`);html=relCap(r);}
+  if(which!=='intro'&&which!=='done')html=html.replace('<span class="k">',`<span class="k">${step}/7 · `);
+  cap.innerHTML=html+navRow();
+  const pv=document.getElementById('lPrev'),nx=document.getElementById('lNext');
+  if(pv)pv.onclick=()=>learnStep(step-1);if(nx)nx.onclick=()=>learnStep(step+1);
+  const td=document.getElementById('toDiag');if(td)td.onclick=()=>setMode('diag');
+  const rb=document.getElementById('rebuild');if(rb)rb.onclick=()=>{complete=false;learnStep(0);};}
+function learn(which){learnStep(STEPS.indexOf(which));}
+document.addEventListener('keydown',e=>{if(mode!=='learn')return;if(e.key==='ArrowRight'&&step<STEPS.length-1)learnStep(step+1);if(e.key==='ArrowLeft'&&step>0)learnStep(step-1);});
+
+/* --- 나의 바퀴 --- */
+function diagCap(){const s=SEGS[cur];clearOn();setOnQuestion(true);segEls[cur].g.classList.add('on');
+  cap.style.setProperty('--rc',`var(${s.rel.rc})`);
+  cap.innerHTML=`<div class="row"><span class="k">내 삶의 균형 점검 · ${cur+1}/8</span><div class="prog">${SEGS.map((_,i)=>`<i class="${i===cur?'cur':vals[i]?'done':''}"></i>`).join('')}</div></div>
+   <h2>${s.rel.name} · ${s.k}</h2>
+   <p class="qtext">${s.q}</p>
+   <div class="scale" style="--rc:var(${s.rel.rc})">${Array.from({length:10},(_,i)=>`<button data-v="${i+1}" aria-pressed="${vals[cur]===i+1}">${i+1}</button>`).join('')}</div>
+   <div class="scale-l"><span><b>1</b> 거의 그렇지 않아요</span><span><b>10</b> 늘 그렇게 살고 있어요</span></div>
+   <div class="row nav-row"><button class="btn" id="dPrev">${cur===0?'← 안내':'← 이전'}</button>
+     <button class="btn reset" id="dReset" ${vals.some(v=>v)?'':'disabled'}>점수 초기화</button>
+     <button class="btn primary" id="dNext">${cur===7?'바퀴 굴려 보기 →':'다음 →'}</button></div>`;
+  bindReset(document.getElementById('dReset'));
+  cap.querySelectorAll('.scale button').forEach(b=>b.onclick=()=>{vals[cur]=+b.dataset.v;save();drawVals();diagCap();});
+  document.getElementById('dPrev').onclick=()=>{if(cur===0){diagIntro();}else{cur--;diagCap();}};
+  document.getElementById('dNext').onclick=()=>{if(cur===7){wheelsGuide();}else{cur++;diagCap();}};}
+/* 점검 시작 안내 */
+function diagIntro(){clearOn();cap.style.setProperty('--rc','var(--gold)');
+  sampleOn=true;drawVals();
+  const all=vals.every(v=>v>0), some=vals.some(v=>v);
+  cap.innerHTML=`<div class="guidebox">
+   <span class="k"><span class="badge">안내</span>내 삶의 균형 점검 · 시작하기 전에</span>
+   <h2>지금 내 삶의 바퀴를 그려 봅니다</h2>
+   <p class="cmt">바퀴살 여덟 개마다 질문이 하나씩 있어요. 요즘 내 모습에 가장 가까운 숫자를 스스로 골라 주세요. 정답은 없어요.</p>
+   <div class="scale demo" aria-hidden="true">${Array.from({length:10},(_,i)=>`<span>${i+1}</span>`).join('')}</div>
+   <div class="scale-l"><span><b>1</b> 거의 그렇지 않아요</span><span><b>10</b> 늘 그렇게 살고 있어요</span></div>
+   <p class="note">위 바퀴는 <b class="red">SAMPLE(예시)</b>예요. 숫자를 고르면 바퀴살이 이렇게 가운데에서 바깥으로 칠해져요. 바퀴 위의 칸을 직접 눌러도 돼요.</p>
+   </div>
+   <div class="row nav-row"><button class="btn reset" id="iReset" ${some?'':'disabled'}>점수 초기화</button>
+     ${all?'<button class="btn" id="iRes">결과 보기</button>':''}
+     <button class="btn primary" id="iStart">${some?'이어서 점검 →':'점검 시작 →'}</button></div>`;
+  bindReset(document.getElementById('iReset'));
+  const r=document.getElementById('iRes');if(r)r.onclick=()=>wheelsGuide();
+  document.getElementById('iStart').onclick=()=>{cur=Math.max(0,vals.findIndex(v=>!v));diagCap();};}
+/* 바퀴 읽는 법: 세 가지 바퀴 */
+const SAMPLE=[
+ {t:"크고 둥근 바퀴",v:[9,9,9,9,9,9,9,9],
+  d:"하나님·자신·공동체·세상, 네 관계가 고르게 자란 모습이에요. 삶에서 그리스도의 향기, 곧 매력이 나고, 누군가 나를 보며 따라올 수 있어요.",
+  w:"12강 그리스도의 향기 · 영적 이끄미"},
+ {t:"작지만 둥근 바퀴",v:[3,3,3,3,3,3,3,3],
+  d:"균형은 잡혀 있지만 아직 작아요. 막 입소한 훈련병도 군인이듯 이미 그리스도 안에 있어요. 네 관계를 함께, 평생에 걸쳐 조금씩 키워 가면 돼요.",
+  w:"1강 훈련병 비유 · 11강 평생, 점진적으로"},
+ {t:"찌그러진 바퀴",v:[9,8,6,4,2,3,2,3],
+  d:"한두 관계만 커진 모습이에요. 하나님과의 관계만 거룩하게 여기거나, 혼자만의 신앙에 머물거나, 하나님 없이 섬기기만 하면 삶이 덜컹거려요.",
+  w:"12강 이원론 · 신앙은 혼자 자랄 수 없다 · 3강 being과 doing"}];
+function wheelsGuide(){clearOn();cap.style.setProperty('--rc','var(--gold)');
+  document.querySelector('.app').classList.add('fullcap');
+  cap.innerHTML=`<div class="guidebox">
+   <span class="k"><span class="badge">안내</span>내 삶의 균형 점검 · 바퀴 읽는 법</span>
+   <h2>풍삶기로 보는 세 가지 바퀴</h2>
+   <p class="cmt">네 관계의 원이 그리스도 안에서 균형 있게 자라는 것이 그리스도를 닮아 가는 것이에요. 바퀴의 모양에 따라 삶이 이렇게 굴러가요. 아래 바퀴는 모두 <b>예시</b>예요.</p>
+   <div class="samples">${SAMPLE.map((x,i)=>`<div class="smp"><svg class="mroll" id="mr${i}" viewBox="0 0 230 96" preserveAspectRatio="xMidYMax meet" aria-hidden="true"></svg><div><b>${x.t}</b><p>${x.d}</p><span class="why">관련 강의 · ${x.w}</span></div></div>`).join('')}</div>
+   </div>
+   <p class="cmt next">이제 나의 바퀴는 어떤지 굴려 볼까요?</p>
+   <div class="row nav-row"><button class="btn" id="gBack">← 다시 고르기</button><button class="btn primary" id="gGo">나의 바퀴 굴려 보기 →</button></div>`;
+  document.getElementById('gBack').onclick=()=>{cur=7;diagCap();};
+  document.getElementById('gGo').onclick=()=>result();
+  SAMPLE.forEach((x,i)=>roll(document.getElementById('mr'+i),x.v,{base:8,k:3.4,GY:94,W:230}));}
+/* 점수 초기화: 한 번 누르면 확인 문구, 3초 안에 한 번 더 누르면 모두 지움 */
+function bindReset(b){if(!b)return;let armed=false,tm=null;
+  b.onclick=()=>{if(!armed){armed=true;b.textContent='한 번 더 누르면 지워져요';b.classList.add('armed');
+      tm=setTimeout(()=>{armed=false;b.textContent='점수 초기화';b.classList.remove('armed');},3000);return;}
+    clearTimeout(tm);stopRolls();
+    vals=Array(8).fill(0);save();drawVals();cur=0;diagCap();};}
+const RID=['god','self','com','world'];
+const SHAPE={
+ low:{t:"아직 작은 바퀴",c:"지금 바퀴가 작아 보여도 괜찮아요. 총 쏘는 법도 모르는 막 입소한 훈련병도 군인이듯, 그리스도 안에 있다면 이미 하나님의 사람이에요. 필요한 건 완벽이 아니라 진실함이에요. 한 걸음씩 익숙해지면 다음 것들이 자연스럽게 열려요.",w:"1강 훈련병 비유 · 6강 훈련병과 특전사"},
+ high:{t:"고르게 큰 바퀴",c:"네 관계가 고르게 자라고 있어요. 이제는 누군가 나를 보며 따라올 수 있는 자리예요. 바울이 “내가 그리스도를 본받는 것처럼 나를 본받으라”고 했듯이, 함께하는 따르미에게 살아 있는 본이 되어 주세요.",w:"12강 영적 이끄미"},
+ dual:{t:"하나님 쪽만 긴 바퀴",c:"하나님과의 관계가 깊이 자라고 있네요. 그런데 영적 성장은 하나님과의 관계만이 아니에요. 하나님과의 관계만 거룩하고 나머지는 속되다고 여기는 생각을 조심하고, 나 자신·공동체·세상까지 네 관계가 함께 자랄 때 그리스도를 닮아 가요.",w:"12강 영적 성숙을 가로막는 이유"},
+ inner:{t:"안쪽이 큰 바퀴",c:"하나님께 받은 사랑이 넉넉해요. 이제 그 사랑이 형제와 이웃에게 흘러갈 차례예요. 누린 만큼 나누는 것, 그리고 신앙은 혼자서 자랄 수 없다는 것을 기억해 보세요.",w:"4강 순종 · 12강 공동체 안에서 일어나는 변화"},
+ outer:{t:"바깥쪽이 큰 바퀴",c:"공동체와 세상에서 열심히 섬기고 있네요. 다만 지치지 않으려면 순서가 중요해요. 말씀이 먼저 나라는 사람(being)을 바꾸고, 그다음에 선한 일(doing)이 나와요. 하나님과의 관계가 모든 것의 열쇠라는 것을 다시 붙잡아 보세요.",w:"3강 being과 doing · 4강 맺음"},
+ mixed:{t:"길고 짧은 바퀴살이 섞인 바퀴",c:"어떤 바퀴살은 길고 어떤 바퀴살은 짧아요. 자연스러운 모습이에요. 13주로 사람이 다 바뀌지는 않아요. 집을 짓듯 기초부터 한 층씩, 평생에 걸쳐 고르게 자라 가면 돼요.",w:"12강 청사진에서 건축으로 · 11강 평생, 점진적으로"}
+};
+const PAIR=[ // [첫 소주제가 더 높을 때, 둘째가 더 높을 때]
+ [{c:"하나님에 대해 아는 것이 많아졌어요. 알아 간 만큼 사랑하게 되는 분이니, 그 앎을 예배와 기도와 순종으로 표현해 보세요.",w:"4강 하나님 사랑하기"},
+  {c:"하나님을 향한 마음이 뜨거워요. 깜깜한 방에서 더듬어 찾지 않아도 되도록 성경이 있어요. 말씀으로 그분을 더 알아 가면 사랑도 깊어져요.",w:"3강 하나님 알아가기"}],
+ [{c:"옛 모습을 내려놓으려 애쓰고 있네요. 그런데 기독교는 나를 죽여 가다 어느 날 변하는 종교가 아니에요. 이미 변화된 사람답게 성령님과 보조를 맞춰 걸을 때 변해요.",w:"5강 “아직 덜 죽어서요” · 6강 성령을 따르는 새 생활"},
+  {c:"성령님과 동행하는 기쁨이 있네요. 다만 구원의 확신이 있다고 죄를 가볍게 여기지 않도록, 옛 모습을 내려놓는 일도 함께 챙겨 보세요.",w:"5강 갈라디아서 5장 21절의 경고"}],
+ [{c:"형제를 사랑하는 마음이 크네요. 그 사랑이 낮아져 섬기고, 용서하고, 용납하는 데까지 이어지면 좋겠어요. 예수님이 먼저 나를 용서하고 용납하셨다는 것을 기억하면 가능해져요.",w:"8강 용서와 용납"},
+  {c:"섬기는 자리를 잘 지키고 있네요. 그 섬김이 한 사람 한 사람을 향한 구체적인 사랑으로 이어지면 좋겠어요. 예수님의 사랑은 늘 말로 때우지 않는 구체적인 사랑이었어요.",w:"7강 구체적인 사랑"}],
+ [{c:"복음을 전하려는 마음이 귀해요. 그런데 삶에 변화가 보이지 않으면 말이 힘을 잃어요. 일터와 일상에서 정의와 사랑으로, 성실하고 탁월하게 사는 모습이 함께 가야 해요.",w:"9강 다스림을 누리며 알리기 · 10강 성실함과 탁월함"},
+  {c:"삶이 이미 좋은 광고가 되고 있어요. 잘되는 음식점은 광고하지 않아도 사람이 몰리듯이요. 이제 누군가 물어 올 때 대답할 수 있도록 내 간증을 준비해 두세요.",w:"9강 잘되는 음식점 · 간증 준비하기"}]
+];
+const PRACTICE={
+ god:"하루 세 번, 10·10·10부터 시작해 보세요. 아침 10분 말씀과 기도, 일과 중 10분 찬양, 자기 전 10분 하루 돌아보기예요. 석 달만 지나도 달라져요. 이미 하고 있다면 20·20·20으로 늘리거나 말씀을 암송해 보세요.",
+ self:"아침에 일어나자마자 세 문장을 선언해 보세요. “하나님이 그리스도 안에서 나를 받아들이셨다. 나는 그리스도 안에서 특별한 존재다. 나는 새로운 가족 공동체에 속했다.” 그리고 “성령님, 오늘도 한 걸음씩 함께 걷겠습니다”로 하루를 시작해 보세요.",
+ com:"말로 때우지 않는 구체적인 사랑을 한 가지 정해 보세요. “기도해 줄게”라고 했다면 정말 10분 이상 기도해 주는 것부터요.",
+ world:"예수님을 만나기 전, 만난 일, 그 뒤의 변화로 내 간증을 한번 써 보세요. 성경책 앞장에 복음을 전하고 싶은 사람의 이름을 적고 기도해 보세요. 일터에서는 주님께 하듯 성실하고 탁월하게 일해 보세요."
+};
+function josa(w){const c=w.charCodeAt(w.length-1);return (c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28)?'이':'가';}
+function analyze(){
+  const v=vals.map(x=>x||0);
+  const rel=REL.map((r,i)=>({r,i,v:(v[i*2]+v[i*2+1])/2}));
+  const g=rel[0].v,sf=rel[1].v,cm=rel[2].v,wd=rel[3].v;
+  let shape;
+  if(rel.every(x=>x.v<=4))shape='low';
+  else if(rel.every(x=>x.v>=8))shape='high';
+  else if(g-(sf+cm+wd)/3>=3)shape='dual';
+  else if((g+sf)/2-(cm+wd)/2>=2)shape='inner';
+  else if((cm+wd)/2-(g+sf)/2>=2)shape='outer';
+  else shape='mixed';
+  let pair=null;
+  rel.forEach(x=>{const a=v[x.i*2],b=v[x.i*2+1],d=Math.abs(a-b);if(d>=3&&(!pair||d>pair.d))pair={rel:x.r,i:x.i,d,hi:a>b?0:1,ka:x.r.keys[a>b?0:1].k,kb:x.r.keys[a>b?1:0].k};});
+  const low=rel.reduce((a,b)=>b.v<a.v?b:a);
+  const round=Math.max(...v)-Math.min(...v)<=2;
+  return {v,rel,shape,pair,low,round};}
+function lightRel(id){SEGS.forEach((sg,i)=>segEls[i].g.classList.toggle('on',sg.rel.id===id));}
+function result(){clearOn();
+  const A=analyze();
+  cap.style.setProperty('--rc','var(--gold)');
+  cap.innerHTML=`<span class="k">내 삶의 균형 점검 · 굴려 보기</span>
+   <svg class="roll" id="roll" viewBox="0 0 400 96" preserveAspectRatio="xMidYMax meet" aria-label="바퀴가 굴러가는 모습"></svg>
+   <p class="verdict">나의 바퀴는 ‘${A.round?(A.v.reduce((a,b)=>a+b,0)/8>=7?'크고 둥근 바퀴':'작지만 둥근 바퀴'):'찌그러진 바퀴'}’에 가까워요</p>
+   <div class="bars">${A.rel.map(x=>`<div class="bar ${x===A.low&&!A.round?'low':''}" style="--rc:var(${x.r.rc})"><span>${x.r.name}</span><div class="t"><i style="width:${x.v*10}%"></i></div><b>${x.v%1?x.v.toFixed(1):x.v}</b></div>`).join('')}</div>
+   <div class="row nav-row"><button class="btn" id="rBack">← 바퀴 읽는 법</button><button class="btn reset" id="rReset">점수 초기화</button><button class="btn primary" id="rCom">코멘트 보기 →</button></div>`;
+  document.getElementById('rBack').onclick=()=>wheelsGuide();
+  bindReset(document.getElementById('rReset'));
+  document.getElementById('rCom').onclick=()=>comment(1);
+  roll(document.getElementById('roll'),A.v);}
+function comment(page){clearOn();
+  const A=analyze();cap.style.setProperty('--rc','var(--gold)');
+  if(page===1){const S=SHAPE[A.shape];
+    if(A.pair)lightRel(A.pair.rel.id);
+    const P=A.pair?PAIR[A.pair.i][A.pair.hi]:null;
+    cap.innerHTML=`<div class="row"><span class="k">코멘트 1/2 · 나의 바퀴 읽기</span><div class="prog"><i class="cur"></i><i></i></div></div>
+     <h2>${S.t}</h2>
+     <p class="cmt">${S.c}</p><p class="why">코멘트 근거 · ${S.w}</p>
+     ${P?`<p class="cmt-h" style="--rc:var(${A.pair.rel.rc})">${A.pair.rel.name} · ${A.pair.ka}${josa(A.pair.ka)} ${A.pair.kb}보다 길어요</p>
+       <p class="cmt">${P.c}</p><p class="why">코멘트 근거 · ${P.w}</p>`:''}
+     <div class="row nav-row"><button class="btn" id="cBack">← 결과로</button><button class="btn primary" id="cNext">앞으로 3개월 →</button></div>`;
+    document.getElementById('cBack').onclick=()=>result();
+    document.getElementById('cNext').onclick=()=>comment(2);
+  }else{const r=A.low.r;lightRel(r.id);
+    cap.innerHTML=`<div class="row"><span class="k">코멘트 2/2 · 앞으로 3개월</span><div class="prog"><i class="done"></i><i class="cur"></i></div></div>
+     <h2>${r.name}에서 할 수 있는 한 가지</h2>
+     <p class="cmt pr" style="--rc:var(${r.rc})">${PRACTICE[r.id]}</p>
+     <p class="cmt">우리 속에 그리스도의 모습이 완성될 때까지 성령님은 우리를 포기하지 않으세요. 정한 것을 짝과 나누고 서로 기도해 주세요. 그리고 이 바퀴를 3개월 뒤에 다시 그려 보세요.</p>
+     <p class="why">코멘트 근거 · 12강 맺음과 앞으로 3개월</p>
+     <div class="row nav-row"><button class="btn" id="cBack">← 이전</button><button class="btn" id="cRes">결과로</button></div>`;
+    document.getElementById('cBack').onclick=()=>comment(1);
+    document.getElementById('cRes').onclick=()=>result();}
+}
+let rolls=[];
+function stopRolls(){rolls.forEach(id=>cancelAnimationFrame(id.v));rolls=[];}
+function roll(rs,v,o){if(!rs)return;o=Object.assign({base:14,k:3.2,GY:94,W:400},o||{});
+  const base=o.base,k=o.k,GY=o.GY,W=o.W;
+  const prof=d=>{let a=((d%360)+360)%360;
+    const idx=SEGS.findIndex(s=>{let a0=((s.a0%360)+360)%360,a1=a0+45;return (a>=a0&&a<a1)||(a+360>=a0&&a+360<a1);});
+    return base+(v[idx<0?0:idx]||0)*k;};
+  const g=el('g',{},rs);const paths=SEGS.map((s,i)=>{const p=el('path',{},g);p.style.fill=`var(${s.rel.rc})`;p.style.fillOpacity='.85';return p;});
+  const hubC=el('circle',{r:Math.max(2,base-2)},g);hubC.style.fill='var(--core)';
+  const pad=base+10*k+4;let phi=0,x=-pad;const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const h={v:0};rolls.push(h);
+  function frame(){const hh=prof(90-phi);
+    paths.forEach((p,i)=>{const s=SEGS[i],R=base+(v[i]||0)*k;const a0=(s.a0+phi)*Math.PI/180,a1=(s.a1+phi)*Math.PI/180;
+      p.setAttribute('d',`M0,0 L${R*Math.cos(a0)},${R*Math.sin(a0)} A${R},${R} 0 0,1 ${R*Math.cos(a1)},${R*Math.sin(a1)} Z`);});
+    g.setAttribute('transform',`translate(${x},${GY-hh})`);
+    if(reduce)return;
+    phi+=2.2;x+=hh*2.2*Math.PI/180;if(x>W+pad){x=-pad;}
+    h.v=requestAnimationFrame(frame);}
+  if(reduce){x=W/2;}
+  frame();}
+
+/* --- 입력 --- */
+function onSeg(i,ev){
+  if(mode==='diag'&&!onQuestion)return; // 점검 모드에서는 질문 화면에서만 바퀴를 눌러 점수를 고를 수 있음 (안내·결과·코멘트 화면에서는 눌러도 아무 일 없음)
+  if(mode==='learn'){learn(SEGS[i].rel.id);return;}
+  if(ev){const pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;const p=pt.matrixTransform(svg.getScreenCTM().inverse());
+    const r=Math.hypot(p.x-CX,p.y-CY);const v=Math.max(1,Math.min(10,Math.ceil((r-SP0)/((SP1-SP0)/10))));vals[i]=v;save();drawVals();}
+  cur=i;diagCap();}
+function bindKey(g,f){g.addEventListener('click',f);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f();}});}
+bindKey(axle,()=>{if(mode==='learn')learn('axle');});
+bindKey(hub,()=>{if(mode==='learn')learn('hub');});
+bindKey(rim,()=>{if(mode==='learn')learn('rim');});
+function setMode(m){mode=m;stopRolls();
+  document.getElementById('mLearn').setAttribute('aria-pressed',String(m==='learn'));
+  document.getElementById('mDiag').setAttribute('aria-pressed',String(m==='diag'));
+  svg.classList.toggle('diag',m==='diag');gGrid.style.display=m==='diag'?'':'none';drawVals();applyBuilt();
+  if(m==='learn'){learnStep(complete?STEPS.length-1:0);}else{diagIntro();}}
+document.getElementById('mLearn').onclick=()=>setMode('learn');
+document.getElementById('mDiag').onclick=()=>setMode('diag');
+setMode('learn');
+/* 10:16 프레임을 화면에 맞게 통째로 확대·축소 (안의 배치는 그대로) */
+function fit(){const m=16;const fs=Math.min((innerWidth-m)/600,(innerHeight-m)/960);document.querySelector('.app').style.setProperty('--fs',Math.max(.3,fs).toFixed(4));}
+addEventListener('resize',fit);fit();
+</script>
+</body>
+</html>
